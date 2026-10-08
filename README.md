@@ -1,10 +1,5 @@
-# mohamed-sherif_58-5374_MET-02_task1
-Name: Mohamed Sherif Mohamed \
-ID: 58-5374 \
-Lap: 2
+# Task 1: Inconsistencies and duplicates
+**Name:** Mohamed Sherif Mohamed \
+**ID:** 58-5374
 
-**Rows:** 39 at the start, 3 exact duplicates removed (S015, S022 and S023 appear twice), then 4 re-submissions removed, leaving 32.
-
-**Order of steps:** On the raw data, the student + club check finds only 2 repeats, because Chess and Chess Club, or Debate and Debating, count as different clubs. After cleaning it finds 4. Two re-submissions would survive if you de-duplicated first.
-
-**Latest, not first:** Students came back to mark the fee as paid, so the latest row has the up-to-date information. For example, Mohamed Adel's Debate sign-up goes from no (S021) to yes (S035).
+The raw file had 39 form submissions with inconsistent spellings. I normalised faculty, club and city mechanically (strip, lower-case, collapse spaces), then mapped what was left with dictionaries: Engineering and Materials Science, Information Engineering and Technology and Pharma became EMS, IET and Pharmacy; Soccer became Football; Debating and Debate Club became Debate; Chess Club became Chess; Alex and El Giza became Alexandria and Giza. Names were trimmed and Title-Cased, emails trimmed and lower-cased, and the fee_paid variants (yes, Y, 1, no, N, 0, ...) became a boolean column. The signed_up_at column mixed a year-first format with day/month/year; since values like 15/09 cannot be a month, I parsed each format separately. I then removed 3 exact duplicates (39 → 36) and 4 re-submitted sign-ups (36 → 32), leaving 32 rows with a unique student_id + club. I kept the latest submission because students came back to update their fee status, so the newest row is the most current, while the first would keep outdated information. The order matters: on the raw data only 2 student + club repeats are found, because spellings like Chess and Chess Club look like different clubs, whereas after cleaning 4 are found, so removing duplicates first would leave 2 behind. Finally, two different students are both named Mohamed Adel (61-4844 and 55-2992); I matched duplicates on student_id, not on name, so they were never merged.
